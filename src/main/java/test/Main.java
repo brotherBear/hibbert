@@ -11,7 +11,7 @@ public class Main {
 		
 		// Create and manipulate a couple of entities.
 		Employee emp1 = Employee.create("Amadeus");
-		
+		System.out.println(emp1);
 	}
 
 }
