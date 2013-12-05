@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<context:annotation-config />
+
+	<bean id="interceptor" class="test.repository.PersistenceInterceptor"/>
+
+
+	<!-- We will apply transaction at every method at all services. This is 
+		achieved through a proxy. -->
+	<bean id="matchAllWithPropReq"
+		class="org.springframework.transaction.interceptor.MatchAlwaysTransactionAttributeSource">
+		<property name="transactionAttribute" value="PROPAGATION_REQUIRED, -BaseException" />
+	</bean>
+
+	<bean id="matchAllTxInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributeSource" ref="matchAllWithPropReq" />
+	</bean>
+
+	<!-- Define repositories -->
+	<bean id="employeeRepository" class="test.repository.GenericRepositoryHibernateImpl">
+		<constructor-arg>
+			<value>test.domain.Employee</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="projectRepository" class="test.repository.GenericRepositoryHibernateImpl">
+		<constructor-arg>
+			<value>test.domain.Project</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="projectService" class="test.service.ProjectServiceImpl"></bean>
+</beans>
