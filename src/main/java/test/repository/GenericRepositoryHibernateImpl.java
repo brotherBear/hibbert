@@ -3,10 +3,12 @@ package test.repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import test.domain.BaseEntity;
 
-
+@Transactional(propagation = Propagation.MANDATORY)
 public class GenericRepositoryHibernateImpl<T, PK extends BaseEntity> implements GenericRepository<T, PK> {
 
 	private Class<T> type;

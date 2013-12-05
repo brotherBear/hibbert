@@ -52,7 +52,7 @@
 
 	<bean id="entityManagerFactory" depends-on="schemaGenerator"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="persistenceUnitTest" />
+		<property name="persistenceUnitName" value="JpaPersistenceUnit" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
