@@ -5,21 +5,23 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import test.domain.BaseEntity;
+import test.util.HibernateUtil;
 
 @Transactional(propagation = Propagation.MANDATORY)
 public class GenericRepositoryHibernateImpl<T, PK extends BaseEntity> implements GenericRepository<T, PK> {
 
 	private Class<T> type;
 
-	@PersistenceUnit
-	EntityManagerFactory emf;
+	@Autowired
+	HibernateUtil util;
 
-	private EntityManager getEntityManager() {
-		return emf.createEntityManager();
+	private EntityManager getEm() {
+		return util.getEntityManager();
 	}
 
 	public GenericRepositoryHibernateImpl(Class<T> type) {
@@ -27,27 +29,36 @@ public class GenericRepositoryHibernateImpl<T, PK extends BaseEntity> implements
 	}
 
 	public void create(T newInstance) {
-		EntityManager entityManager = getEntityManager();
-		entityManager.getTransaction().begin();
-		entityManager.persist(newInstance);
-		entityManager.getTransaction().commit();
+		EntityManager em = util.getEntityManager();
+		util.beginTransaction();
+		em.persist(newInstance);
+		util.commit();
 	}
 
 	public T read(PK id) {
-		return getEntityManager().find(type, id);
+		return getEm().find(type, id);
 	}
 
 	public void update(T transientObject) {
-		getEntityManager().merge(transientObject);
+		EntityManager em = util.getEntityManager();
+		util.beginTransaction();
+		em.merge(transientObject);
+		em.persist(transientObject);
+		
+		util.commit();
 	}
 
 	public void delete(T persistedObject) {
-		getEntityManager().remove(persistedObject);
+		EntityManager em = util.getEntityManager();
+		util.beginTransaction();
+		em.remove(persistedObject);
+		util.commit();
+		
 	}
 
 	public T findByName(String name) {
 		String hql = "from " + type.getSimpleName() + " where name = :name";
-		TypedQuery<T> q = getEntityManager().createQuery(hql, type);
+		TypedQuery<T> q = getEm().createQuery(hql, type);
 		q.setParameter("name", name);
 		return q.getSingleResult();
 	}

@@ -17,7 +17,7 @@ public class Project extends BaseEntity {
 	
 	private static final long serialVersionUID = 4803770976805986497L;
 	
-	@OneToMany
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	private Set<Employee> employees = new HashSet<Employee>();
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
 	private Employee manager;

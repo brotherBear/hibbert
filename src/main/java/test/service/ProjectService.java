@@ -15,5 +15,6 @@ public interface ProjectService {
 	void assignToProject(Project p, Employee minion);
 	void removeFromProject(Project p, Employee exMinion);
 	void removeProject(Project p);
+	void updateProject(Project p);
 
 }

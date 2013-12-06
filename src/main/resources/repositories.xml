@@ -95,4 +95,6 @@
 
 	<bean id="schemaGenerator" class="test.util.SchemaGenerator" />
 
+	<bean id="hibernateUtil" class="test.util.HibernateUtil"/>
+	
 </beans>

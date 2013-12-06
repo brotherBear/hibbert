@@ -51,4 +51,8 @@ public class ProjectServiceImpl implements ProjectService {
 		return null;
 	}
 
+	public void updateProject(Project p) {
+		projectRepository.update(p);
+	}
+
 }
