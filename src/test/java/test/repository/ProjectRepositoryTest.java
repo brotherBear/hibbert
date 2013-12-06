@@ -27,7 +27,7 @@ public class ProjectRepositoryTest {
 	@BeforeClass
 	public static void setup() {
 		// Uncomment to check the contents of the database (useful in debug)
-		//org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url", "jdbc:hsqldb:mem:testdb", "--noexit" });
+		// org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url", "jdbc:hsqldb:mem:testdb", "--noexit" });
 	}
 
 	@Test
@@ -50,15 +50,33 @@ public class ProjectRepositoryTest {
 		Employee manager = Employee.create("Terry");
 		String projectName = "Life of Brian";
 		Project p = projectService.createProject(projectName, manager);
-		
+
 		p.addMinion(Employee.create("John"));
 		p.addMinion(Employee.create("Michael"));
-		
+
 		projectService.updateProject(p);
-		
+
 		Project other = projectService.findProject(projectName);
 		assertEquals(other, p);
 	}
-	
-	//TODO Populate a collection, and load it lazily 
+
+	@Test
+	public void createProjectAndAssignPeople() {
+		Employee manager = Employee.create("Terry");
+		String projectName = "The Meaning of Liff";
+		Project p = projectService.createProject(projectName, manager);
+
+		projectService.assignToProject(p, Employee.create("John"));
+		projectService.assignToProject(p, Employee.create("Michael"));
+		projectService.assignToProject(p, Employee.create("Graham"));
+
+		Project other = projectService.findProject(projectName);
+		assertEquals(other, p);
+		assertEquals(3, other.getMinions().size());
+		
+		p.addMinion(Employee.create("Polly the Parrot"));
+		assertEquals(4, p.getMinions().size());
+		assertEquals(4, other.getMinions().size());
+	}
+	// TODO Populate a collection, and load it lazily
 }

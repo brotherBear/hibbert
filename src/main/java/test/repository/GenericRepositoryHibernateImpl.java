@@ -1,8 +1,6 @@
 package test.repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,7 @@ public class GenericRepositoryHibernateImpl<T, PK extends BaseEntity> implements
 	}
 
 	public void create(T newInstance) {
+		// Would like to avoid this transaction stuff... should be managed by the @Transactional
 		EntityManager em = util.getEntityManager();
 		util.beginTransaction();
 		em.persist(newInstance);
