@@ -47,7 +47,7 @@ public class ProjectRepositoryTest {
 
 	@Test
 	public void createThenUpdateProject() {
-		Employee manager = Employee.create("Monty Python");
+		Employee manager = Employee.create("Terry");
 		String projectName = "Life of Brian";
 		Project p = projectService.createProject(projectName, manager);
 		
@@ -60,6 +60,5 @@ public class ProjectRepositoryTest {
 		assertEquals(other, p);
 	}
 	
-	//TODO Move the EntityManager into ThreadLocal pattern
 	//TODO Populate a collection, and load it lazily 
 }
