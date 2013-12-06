@@ -8,6 +8,9 @@ import test.domain.Project;
 public interface ProjectService {
 
 	Project createProject(String name, Employee manager);
+	Project findProject(String name);
+	Project findProjectFor(Employee manager);
+
 	void changeManager(Project p, Employee newManager);
 	void assignToProject(Project p, Employee minion);
 	void removeFromProject(Project p, Employee exMinion);

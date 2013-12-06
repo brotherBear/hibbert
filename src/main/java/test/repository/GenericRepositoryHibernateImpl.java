@@ -1,8 +1,10 @@
 package test.repository;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,33 +14,42 @@ import test.domain.BaseEntity;
 public class GenericRepositoryHibernateImpl<T, PK extends BaseEntity> implements GenericRepository<T, PK> {
 
 	private Class<T> type;
-	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
+
+	@PersistenceUnit
+	EntityManagerFactory emf;
+
+	private EntityManager getEntityManager() {
+		return emf.createEntityManager();
 	}
-	
+
 	public GenericRepositoryHibernateImpl(Class<T> type) {
 		this.type = type;
 	}
-	
-	public PK create(T newInstance) {
-		return (PK) getSession().save(newInstance);
+
+	public void create(T newInstance) {
+		EntityManager entityManager = getEntityManager();
+		entityManager.getTransaction().begin();
+		entityManager.persist(newInstance);
+		entityManager.getTransaction().commit();
 	}
 
-
 	public T read(PK id) {
-		return (T) getSession().get(type, id);
+		return getEntityManager().find(type, id);
 	}
 
 	public void update(T transientObject) {
-		getSession().update(transientObject);
+		getEntityManager().merge(transientObject);
 	}
 
 	public void delete(T persistedObject) {
-		getSession().delete(persistedObject);
+		getEntityManager().remove(persistedObject);
+	}
+
+	public T findByName(String name) {
+		String hql = "from " + type.getSimpleName() + " where name = :name";
+		TypedQuery<T> q = getEntityManager().createQuery(hql, type);
+		q.setParameter("name", name);
+		return q.getSingleResult();
 	}
 
 }

@@ -39,8 +39,16 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	public void removeProject(Project p) {
-		// TODO Auto-generated method stub
+		projectRepository.delete(p);
+	}
 
+	public Project findProject(String name) {
+		return projectRepository.findByName(name);
+	}
+
+	public Project findProjectFor(Employee manager) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

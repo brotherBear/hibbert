@@ -6,6 +6,8 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -13,17 +15,30 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import test.repository.PersistenceInterceptor;
 
-
 @MappedSuperclass
 @EntityListeners(value = PersistenceInterceptor.class)
 public abstract class BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	private Long id;
 
+	
+	public String getName() {
+		return name;
+	}
+
+	
+	protected void setName(String name) {
+		this.name = name;
+	}
+
+	@Column
+	private String name;
+	
 	@Override
 	public int hashCode() {
 		// Implementing this along the same lines as in AbstractPersistenObject under JDO framework
@@ -33,7 +48,7 @@ public abstract class BaseEntity implements Serializable {
 		HashCodeBuilder builder = new HashCodeBuilder();
 		builder.append(this.getClass().getCanonicalName());
 		builder.append(getId());
-		
+
 		return builder.toHashCode();
 	}
 
@@ -57,7 +72,7 @@ public abstract class BaseEntity implements Serializable {
 			return this.getId() == ((BaseEntity) obj).getId();
 		}
 	}
-	
+
 	protected final int getId() {
 		return id != null ? id.intValue() : 0;
 	}
@@ -67,14 +82,14 @@ public abstract class BaseEntity implements Serializable {
 		StringBuffer sb = new StringBuffer("\n{");
 		Class<?> objClass = this.getClass();
 		Class<?> superclass = objClass.getSuperclass();
-		while (superclass != Object.class ){
+		while (superclass != Object.class) {
 			getFieldsAsString(sb, superclass);
 			superclass = superclass.getSuperclass();
 		}
 		getFieldsAsString(sb, objClass);
 		sb.append('}');
 		return sb.toString();
-		
+
 	}
 
 	private void getFieldsAsString(StringBuffer sb, Class<?> objClass) {
@@ -95,6 +110,5 @@ public abstract class BaseEntity implements Serializable {
 			}
 		}
 	}
-
 
 }

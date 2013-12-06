@@ -13,6 +13,11 @@
 
 	<bean id="interceptor" class="test.repository.PersistenceInterceptor" />
 
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
 
 	<!-- We will apply transaction at every method at all services. This is 
 		achieved through a proxy. -->
@@ -44,28 +49,48 @@
 
 	<!-- HSQLDB datasource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
-		<property name="jdbcUrl" value="jdbc:hsqldb:mem:ex" />
 		<property name="user" value="sa" />
 		<property name="password" value="" />
+		<property name="jdbcUrl" value="jdbc:hsqldb:mem:testdb" />
+		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
+	</bean> 
+	<!--
+	Alternative datasource not using connection pooling.
+	
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
+		<property name="url" value="jdbc:hsqldb:mem:testdb" />
+		<property name="username" value="sa" />
+		<property name="password" value="" />
 	</bean>
+		-->
 
 	<bean id="entityManagerFactory" depends-on="schemaGenerator"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="JpaPersistenceUnit" />
+<!-- 		<property name="persistenceUnitName" value="JpaPersistenceUnit" /> -->
+
+		<property value="META-INF/persistence.xml" name="persistenceXmlLocation" />
 		<property name="dataSource" ref="dataSource" />
+
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-				<property name="showSql" value="true" />
-				<property name="databasePlatform" value="org.hibernate.dialect.HSQLDialect" />
+				<property name="showSql" value="false" />
 				<property name="generateDdl" value="true" />
+				<property name="database" value="HSQL" />
 			</bean>
 		</property>
-	</bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-		<property name="dataSource" ref="dataSource" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.default_schema">hibbert</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
 	</bean>
 
 	<bean id="schemaGenerator" class="test.util.SchemaGenerator" />

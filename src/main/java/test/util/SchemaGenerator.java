@@ -10,13 +10,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class SchemaGenerator implements InitializingBean{
 
 	
-	private String schemaName = "hibbert";
+	public static final String SCHEMA = "hibbert";
+	
 	@Autowired
 	private DataSource dataSource;
 
 	public void afterPropertiesSet() throws Exception {
 		JdbcTemplate template = new JdbcTemplate(dataSource);
-		template.execute("Create schema " + schemaName + " authorization dba");
+		template.execute("Create schema " + SCHEMA + " authorization dba");
 	}
 
 	

@@ -1,11 +1,15 @@
 package test.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import test.util.SchemaGenerator;
 
 @Entity
+@Table(schema=SchemaGenerator.SCHEMA)
 public class Employee extends BaseEntity{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	public static Employee create(String name) {
 		Employee e = new Employee();
@@ -13,14 +17,5 @@ public class Employee extends BaseEntity{
 		return e;
 	}
 	
-	private String name;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 	
 }
