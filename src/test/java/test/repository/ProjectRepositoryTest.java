@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.IllegalTransactionStateException;
+import org.springframework.transaction.annotation.Transactional;
 
 import test.domain.Employee;
 import test.domain.Project;
@@ -76,6 +77,7 @@ public class ProjectRepositoryTest {
 	}
 
 	@Test
+	@Transactional
 	public void createProjectAndAssignPeople() {
 		Employee manager = Employee.create("Terry");
 		String projectName = "The Meaning of Liff";
@@ -87,11 +89,12 @@ public class ProjectRepositoryTest {
 
 		Project other = projectService.findProject(projectName);
 		assertEquals(other.getName(), p.getName());
+		assertEquals(other, p);
 		assertEquals(3, p.getMinions().size());
 
 		p.addMinion(Employee.create("Polly the Parrot"));
 		assertEquals(4, p.getMinions().size());
-		assertEquals(3, other.getMinions().size());
+		assertEquals(4, other.getMinions().size());
 	}
 
 	@Test
