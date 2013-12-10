@@ -1,7 +1,6 @@
 package test.service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,13 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import test.domain.Employee;
 import test.domain.Project;
 import test.repository.GenericRepository;
-import test.util.HibernateUtil;
 
 @Transactional
 @Service
 public class EmployeeManagementServiceImpl implements EmployeeManagementService {
-	@Autowired
-	HibernateUtil util;
 	@Autowired
 	GenericRepository<Employee, Employee> employeeRepository;
 	@Autowired

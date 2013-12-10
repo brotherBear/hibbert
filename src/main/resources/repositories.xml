@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
@@ -46,7 +45,13 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="projectService" class="test.service.ProjectServiceImpl"></bean>
+	<!-- Define services -->
+	<bean id="projectService" class="test.service.ProjectServiceImpl" />
+	<bean id="employeeManagementService" class="test.service.EmployeeManagementServiceImpl" />
+
+	<!-- Supporting utilities -->
+	<!-- 	 <bean id="hibernateUtil" class="test.util.HibernateUtil"/> --> 
+
 
 	<!-- HSQLDB datasource -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -54,10 +59,8 @@
 		<property name="password" value="" />
 		<property name="jdbcUrl" value="jdbc:hsqldb:mem:testdb" />
 		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
-	</bean> 
-	<!--
-	Alternative datasource not using connection pooling.
-	
+	</bean>
+	<!-- Alternative datasource not using connection pooling. 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="org.hsqldb.jdbcDriver" />
@@ -65,11 +68,11 @@
 		<property name="username" value="sa" />
 		<property name="password" value="" />
 	</bean>
-		-->
+	-->
 
 	<bean id="entityManagerFactory" depends-on="schemaGenerator"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-<!-- 		<property name="persistenceUnitName" value="JpaPersistenceUnit" /> -->
+		<!-- <property name="persistenceUnitName" value="JpaPersistenceUnit" /> -->
 
 		<property value="META-INF/persistence.xml" name="persistenceXmlLocation" />
 		<property name="dataSource" ref="dataSource" />
@@ -96,9 +99,4 @@
 
 	<bean id="schemaGenerator" class="test.util.SchemaGenerator" />
 
-	<bean id="hibernateUtil" class="test.util.HibernateUtil"/>
-	
-	<bean id="employeeManagementService"
-		class="test.service.EmployeeManagementServiceImpl">
-	</bean>
 </beans>
