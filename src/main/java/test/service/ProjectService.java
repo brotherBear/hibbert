@@ -12,6 +12,7 @@ public interface ProjectService {
 	Project createProject(String name, Employee manager);
 	Project findProject(String name);
 	Project findProjectFor(Employee manager);
+	Project findProjectWithEmployees(String projectName);
 
 	void changeManager(Project p, Employee newManager);
 	Project assignToProject(Project p, Employee minion);

@@ -61,4 +61,11 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectRepository.findAll();
 	}
 
+	public Project findProjectWithEmployees(String projectName) {
+		Project p = findProject(projectName);
+		// Touch the collection to load it
+		p.getMinions();
+		return p;
+	}
+
 }
