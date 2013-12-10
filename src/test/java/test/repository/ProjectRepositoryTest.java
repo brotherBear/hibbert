@@ -2,13 +2,19 @@ package test.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
+import java.util.Collection;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.IllegalTransactionStateException;
 
 import test.domain.Employee;
 import test.domain.Project;
@@ -24,25 +30,34 @@ public class ProjectRepositoryTest {
 	@Autowired
 	private ProjectService projectService;
 
-	@BeforeClass
-	public static void setup() {
-		// Uncomment to check the contents of the database (useful in debug)
-		// org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url", "jdbc:hsqldb:mem:testdb", "--noexit" });
-	}
-
-	@Test
-	public void test() {
+	@Before
+	public void insertData() {
 		assertNotNull(projectRepository);
 		assertNotNull(projectService);
+	}
+
+	@After
+	public void removeData() {
+		Collection<Project> projects = projectService.findAll();
+		for (Project project : projects) {
+			projectService.removeProject(project);
+		}
+	}
+
+	@BeforeClass
+	public static void setup() {
+		// Un-comment to check the contents of the database (useful in debug)
+		// org.hsqldb.util.DatabaseManagerSwing.main(new String[] { "--url", "jdbc:hsqldb:mem:testdb", "--noexit" });
 	}
 
 	@Test
 	public void createProject() {
 		Employee manager = Employee.create("Elmer Fudd");
-		Project newInstance = projectService.createProject("Humpty Dumpty", manager);
+		String projectName = "Humpty Dumpty";
+		Project newInstance = projectService.createProject(projectName, manager);
 
-		Project other = projectService.findProject("Humpty Dumpty");
-		assertEquals(other, newInstance);
+		Project other = projectService.findProject(projectName);
+		assertEquals(other.getName(), newInstance.getName());
 	}
 
 	@Test
@@ -57,7 +72,7 @@ public class ProjectRepositoryTest {
 		projectService.updateProject(p);
 
 		Project other = projectService.findProject(projectName);
-		assertEquals(other, p);
+		assertEquals(other.getName(), p.getName());
 	}
 
 	@Test
@@ -66,17 +81,28 @@ public class ProjectRepositoryTest {
 		String projectName = "The Meaning of Liff";
 		Project p = projectService.createProject(projectName, manager);
 
-		projectService.assignToProject(p, Employee.create("John"));
-		projectService.assignToProject(p, Employee.create("Michael"));
-		projectService.assignToProject(p, Employee.create("Graham"));
+		p = projectService.assignToProject(p, Employee.create("John"));
+		p = projectService.assignToProject(p, Employee.create("Michael"));
+		p = projectService.assignToProject(p, Employee.create("Graham"));
 
 		Project other = projectService.findProject(projectName);
-		assertEquals(other, p);
-		assertEquals(3, other.getMinions().size());
-		
+		assertEquals(other.getName(), p.getName());
+		assertEquals(3, p.getMinions().size());
+
 		p.addMinion(Employee.create("Polly the Parrot"));
 		assertEquals(4, p.getMinions().size());
-		assertEquals(4, other.getMinions().size());
+		assertEquals(3, other.getMinions().size());
 	}
+
+	@Test
+	public void checkThatAccessingRepositoryThrowsException() {
+		assertNotNull(projectRepository);
+		try {
+			projectRepository.create(Project.create(Employee.create("Harry Hole"), "Politiskolen III"));
+			fail("Throw a Transaction exception");
+		} catch (IllegalTransactionStateException e) {
+		}
+	}
+
 	// TODO Populate a collection, and load it lazily
 }

@@ -1,13 +1,16 @@
 package test.repository;
 
+import java.util.Collection;
+
 import test.domain.BaseEntity;
 
 
-public interface GenericRepository<T, PK extends BaseEntity> {
+public interface GenericRepository<T extends BaseEntity, PK extends BaseEntity> {
 
-	void create(T newInstance);
+	T create(T newInstance);
 	T read (PK id);
-	void update(T transientObject);
+	T update(T transientObject);
 	void delete(T persistedObject);
 	T findByName(String name);
+	Collection<T> findAll();
 }

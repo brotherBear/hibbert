@@ -3,6 +3,8 @@ package test.domain;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
@@ -26,31 +29,8 @@ public abstract class BaseEntity implements Serializable {
 	@Column
 	private Long id;
 
-	
-	public String getName() {
-		return name;
-	}
-
-	
-	protected void setName(String name) {
-		this.name = name;
-	}
-
-	@Column
+	@Column(nullable = false)
 	private String name;
-	
-	@Override
-	public int hashCode() {
-		// Implementing this along the same lines as in AbstractPersistenObject under JDO framework
-		if (getId() == 0) {
-			return super.hashCode();
-		}
-		HashCodeBuilder builder = new HashCodeBuilder();
-		builder.append(this.getClass().getCanonicalName());
-		builder.append(getId());
-
-		return builder.toHashCode();
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -66,30 +46,11 @@ public abstract class BaseEntity implements Serializable {
 		} else if (this.getId() == 0 || ((BaseEntity) obj).getId() == 0) {
 			// At least one of the objects has just been created. Since they are not in the same memory location, they
 			// are by definition not equal.
-			return false;
+			return this.getName().equals(((BaseEntity) obj).getName());
 		} else {
 			// Given that the objects are same class, the ID needs to be the same.
 			return this.getId() == ((BaseEntity) obj).getId();
 		}
-	}
-
-	protected final int getId() {
-		return id != null ? id.intValue() : 0;
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer("\n{");
-		Class<?> objClass = this.getClass();
-		Class<?> superclass = objClass.getSuperclass();
-		while (superclass != Object.class) {
-			getFieldsAsString(sb, superclass);
-			superclass = superclass.getSuperclass();
-		}
-		getFieldsAsString(sb, objClass);
-		sb.append('}');
-		return sb.toString();
-
 	}
 
 	private void getFieldsAsString(StringBuffer sb, Class<?> objClass) {
@@ -109,6 +70,51 @@ public abstract class BaseEntity implements Serializable {
 				sb.append(String.format("%s: %s\n", name, value == null ? "N/A" : value.toString()));
 			}
 		}
+	}
+
+	protected final int getId() {
+		return id != null ? id.intValue() : 0;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public boolean isPersisted() {
+		return id != null;
+	}
+
+	@Override
+	public int hashCode() {
+		// Implementing this along the same lines as in AbstractPersistenObject under JDO framework
+		// if (getId() == 0) {
+		// return super.hashCode();
+		// }
+		HashCodeBuilder builder = new HashCodeBuilder(13, 27);
+		builder.append(this.getClass().getCanonicalName());
+		builder.append(getName());
+		// builder.append(getId());
+
+		return builder.toHashCode();
+	}
+
+	protected void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer("\n{");
+		Class<?> objClass = this.getClass();
+		Class<?> superclass = objClass.getSuperclass();
+		while (superclass != Object.class) {
+			getFieldsAsString(sb, superclass);
+			superclass = superclass.getSuperclass();
+		}
+		getFieldsAsString(sb, objClass);
+		sb.append('}');
+		return sb.toString();
+
 	}
 
 }

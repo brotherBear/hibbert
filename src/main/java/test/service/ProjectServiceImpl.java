@@ -1,5 +1,7 @@
 package test.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	public Project createProject(String name, Employee manager) {
 		Project p = Project.create(manager, name);
-		projectRepository.create(p);
+		p = projectRepository.create(p);
 		return p;
 	}
 
@@ -28,9 +30,9 @@ public class ProjectServiceImpl implements ProjectService {
 		projectRepository.update(p);
 	}
 
-	public void assignToProject(Project p, Employee minion) {
+	public Project assignToProject(Project p, Employee minion) {
 		p.addMinion(minion);
-		projectRepository.update(p);
+		return projectRepository.update(p);
 	}
 
 	public void removeFromProject(Project p, Employee exMinion) {
@@ -53,6 +55,10 @@ public class ProjectServiceImpl implements ProjectService {
 
 	public void updateProject(Project p) {
 		projectRepository.update(p);
+	}
+
+	public Collection<Project> findAll() {
+		return projectRepository.findAll();
 	}
 
 }
