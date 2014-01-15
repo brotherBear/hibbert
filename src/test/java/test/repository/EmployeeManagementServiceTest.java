@@ -18,7 +18,7 @@ import test.service.EmployeeManagementService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/repositories.xml" })
+@ContextConfiguration(locations = { "/appContext.xml" })
 public class EmployeeManagementServiceTest {
 	
 	@Autowired

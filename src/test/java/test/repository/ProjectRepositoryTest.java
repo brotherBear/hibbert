@@ -22,7 +22,7 @@ import test.domain.Project;
 import test.service.ProjectService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/repositories.xml" })
+@ContextConfiguration(locations = { "/appContext.xml" })
 public class ProjectRepositoryTest {
 
 	@Autowired
