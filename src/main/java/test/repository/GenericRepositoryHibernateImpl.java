@@ -43,6 +43,11 @@ public class GenericRepositoryHibernateImpl<T extends BaseEntity, PK extends Bas
 		T e = em.merge(transientObject);
 		return e;
 	}
+	
+	public void refresh(final T entity) {
+		if (entity.isPersisted())
+		em.refresh(entity);
+	}
 
 	public void delete(T persistedObject) {
 		T e = persistedObject;

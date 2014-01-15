@@ -10,6 +10,7 @@ public interface GenericRepository<T extends BaseEntity, PK extends BaseEntity> 
 	T create(T newInstance);
 	T read (PK id);
 	T update(T transientObject);
+	void refresh(T entity);
 	void delete(T persistedObject);
 	T findByName(String name);
 	Collection<T> findAll();

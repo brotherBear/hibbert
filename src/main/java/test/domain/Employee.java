@@ -1,7 +1,12 @@
 package test.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,6 +27,9 @@ public class Employee extends BaseEntity{
 	@OneToOne(cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	private Project project;
 	
+	@OneToMany(cascade=CascadeType.ALL)
+	private Set<Address> addressSet;
+	
 	public void manage(Project proj) {
 		project = proj;
 	}
@@ -32,6 +40,22 @@ public class Employee extends BaseEntity{
 	
 	public boolean isManager() {
 		return project != null ? true: false;
+	}
+
+	
+	public Collection<Address> getAddresses() {
+		return addressSet;
+	}
+
+	
+	public void setAddress(Set<Address> addresses) {
+		this.addressSet = addresses;
+	}
+	
+	public void addAddress(Address address) {
+		if (this.addressSet == null)
+			this.addressSet = new HashSet<Address>();
+		this.addressSet.add(address);
 	}
 	
 	

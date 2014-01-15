@@ -44,6 +44,19 @@
 			<value>test.domain.Project</value>
 		</constructor-arg>
 	</bean>
+	
+	<bean id="addressRepository" class="test.repository.GenericRepositoryHibernateImpl">
+		<constructor-arg>
+			<value>test.domain.Address</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="countryRepository" class="test.repository.GenericRepositoryHibernateImpl">
+		<constructor-arg>
+			<value>test.domain.Country</value>
+		</constructor-arg>
+	</bean>
+
 
 	<!-- Define services -->
 	<bean id="projectService" class="test.service.ProjectServiceImpl" />
