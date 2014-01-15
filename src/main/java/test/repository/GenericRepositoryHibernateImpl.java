@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,12 +53,13 @@ public class GenericRepositoryHibernateImpl<T extends BaseEntity, PK extends Bas
 	}
 
 	public T findByName(String name) {
-		String hql = "from " + type.getSimpleName() + " where name = :name";
-		TypedQuery<T> q = em.createQuery(hql, type);
-		q.setParameter("name", name);
-		List<T> resultList = q.getResultList();
-		if (resultList.iterator().hasNext())
-			return resultList.iterator().next();
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<T> criteria = builder.createQuery(type);
+		Root<T> root = criteria.from(type);
+		criteria.select(root);
+		criteria.where(builder.equal(root.get("name"), name));
+		List<T> res = em.createQuery(criteria).getResultList();
+		if (res.iterator().hasNext()) return res.iterator().next();
 		else return null;
 	}
 
