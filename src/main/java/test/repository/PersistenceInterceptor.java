@@ -16,7 +16,7 @@ public class PersistenceInterceptor {
 	
 	@PrePersist
 	public void prePersist(Object o) {
-//		log(o, "++++", "Persisting");
+		log(o, "++++", "Persisting");
 	}
 	
 	@PostPersist
@@ -45,7 +45,7 @@ public class PersistenceInterceptor {
 	}
 
 	private void log(Object o, String prefix, String ingress) {
-//		System.out.println(prefix +" " + ingress + " " + o.getClass().getSimpleName() + ": " + o.toString());
+		System.out.println(prefix +" " + ingress + " " + o.getClass().getSimpleName() + ": " + o.toString());
 	}
 
 }
