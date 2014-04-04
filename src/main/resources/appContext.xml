@@ -33,35 +33,15 @@
 	</bean>
 
 	<!-- Define repositories -->
-	<bean id="employeeRepository" class="test.repository.GenericRepositoryHibernateImpl">
-		<constructor-arg>
-			<value>test.domain.Employee</value>
-		</constructor-arg>
-	</bean>
-
-	<bean id="projectRepository" class="test.repository.GenericRepositoryHibernateImpl">
-		<constructor-arg>
-			<value>test.domain.Project</value>
-		</constructor-arg>
-	</bean>
-	
-	<bean id="addressRepository" class="test.repository.GenericRepositoryHibernateImpl">
-		<constructor-arg>
-			<value>test.domain.Address</value>
-		</constructor-arg>
-	</bean>
-
-	<bean id="countryRepository" class="test.repository.GenericRepositoryHibernateImpl">
-		<constructor-arg>
-			<value>test.domain.Country</value>
-		</constructor-arg>
-	</bean>
-
+	<bean id="repo" class="hibbert.repository.RepositoryImpl"/>
 
 	<!-- Define services -->
+	<bean id="composer" class="hibbert.service.ComposerImpl"/>
+	
+<!-- 
 	<bean id="projectService" class="test.service.ProjectServiceImpl" />
 	<bean id="employeeManagementService" class="test.service.EmployeeManagementServiceImpl" />
-
+ -->
 	<!-- Supporting utilities -->
 	<!-- 	 <bean id="hibernateUtil" class="test.util.HibernateUtil"/> --> 
 
