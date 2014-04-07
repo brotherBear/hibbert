@@ -9,12 +9,13 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import test.domain.BaseEntity;
 import test.util.SchemaGenerator;
 
 @Entity
-@Table(schema = SchemaGenerator.SCHEMA, name = "parts")
+@Table(schema = SchemaGenerator.SCHEMA, name = "parts", uniqueConstraints = { @UniqueConstraint(columnNames = { "product_id", "name", "stock" }) })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
 @DiscriminatorValue(value = "B-obj")
