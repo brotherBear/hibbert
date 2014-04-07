@@ -25,10 +25,9 @@ public class ComposerImpl implements Composer {
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			Part b = new Part("B"+i);
-			b.setProp1("prop1" + (count-i));
-			b.setProp2("prop2" + (count-i));
-			entity.addPart(b);
+			Part part = new Part("B"+i);
+			part.setProp1("prop1" + (count-i));
+			entity.addPart(part);
 		}
 		return entity;
 	}
@@ -43,11 +42,11 @@ public class ComposerImpl implements Composer {
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			SpecialPart b = new SpecialPart("C"+i);
-			b.setProp1("prop1" + (count-i));
-			b.setProp2("prop2" + (count-i));
-			b.setStock(count-1);
-			entity.addPart(b);
+			SpecialPart part = new SpecialPart("C"+i);
+			part.setProp1("prop1" + (count-i));
+			part.setProp2("prop2" + (count-i));
+			part.setStock(count-1);
+			entity.addPart(part);
 		}
 		return entity;
 	}

@@ -13,6 +13,9 @@ public class SpecialPart extends Part {
 	@Column
 	private int stock;
 
+	@Column
+	private String prop2;
+
 	public SpecialPart(String name) {
 		super(name);
 	}
@@ -27,6 +30,14 @@ public class SpecialPart extends Part {
 
 	public void setStock(int count) {
 		this.stock = count;
+	}
+
+	public String getProp2() {
+		return prop2;
+	}
+
+	public void setProp2(String prop2) {
+		this.prop2 = prop2;
 	}
 
 }

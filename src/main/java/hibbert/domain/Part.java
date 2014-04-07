@@ -14,7 +14,9 @@ import javax.persistence.UniqueConstraint;
 import common.SchemaGenerator;
 
 @Entity
-@Table(schema = SchemaGenerator.SCHEMA, name = "parts", uniqueConstraints = { @UniqueConstraint(columnNames = { "product_id", "name", "stock" }) })
+@Table(	uniqueConstraints = { @UniqueConstraint(columnNames = { "product_id", "name", "prop2", "stock" }) },
+		schema = SchemaGenerator.SCHEMA,
+		name = "parts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
 @DiscriminatorValue(value = "B-obj")
@@ -23,11 +25,8 @@ public class Part extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 	@Column
 	private String prop1;
-	@Column
-	private String prop2;
-	
 	@ManyToOne
-	@JoinColumn(name="product_id")
+	@JoinColumn(name = "product_id")
 	private Product component;
 
 	public Part(String name) {
@@ -42,15 +41,7 @@ public class Part extends BaseEntity {
 		return prop1;
 	}
 
-	public String getProp2() {
-		return prop2;
-	}
-
 	public void setProp1(String prop1) {
 		this.prop1 = prop1;
-	}
-
-	public void setProp2(String prop2) {
-		this.prop2 = prop2;
 	}
 }
