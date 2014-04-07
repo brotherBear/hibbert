@@ -1,5 +1,6 @@
 package hibbert.repository;
 
+import hibbert.domain.BaseEntity;
 import hibbert.domain.Product;
 
 import java.util.Collection;
@@ -11,8 +12,6 @@ import javax.persistence.TypedQuery;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import test.domain.BaseEntity;
 
 @Transactional(propagation = Propagation.MANDATORY)
 public class RepositoryImpl implements Repository {

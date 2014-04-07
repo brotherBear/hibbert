@@ -1,4 +1,4 @@
-package test;
+package common;
 
 import org.hsqldb.util.DatabaseManagerSwing;
 

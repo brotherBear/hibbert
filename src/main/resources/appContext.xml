@@ -11,7 +11,7 @@
 
 	<context:annotation-config />
 
-	<bean id="interceptor" class="test.repository.PersistenceInterceptor" />
+	<bean id="interceptor" class="hibbert.repository.PersistenceInterceptor" />
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
@@ -43,7 +43,7 @@
 	<bean id="employeeManagementService" class="test.service.EmployeeManagementServiceImpl" />
  -->
 	<!-- Supporting utilities -->
-	<!-- 	 <bean id="hibernateUtil" class="test.util.HibernateUtil"/> --> 
+	<!-- 	 <bean id="hibernateUtil" class="common.HibernateUtil"/> --> 
 
 
 	<!-- HSQLDB datasource -->
@@ -90,6 +90,6 @@
 		</property>
 	</bean>
 
-	<bean id="schemaGenerator" class="test.util.SchemaGenerator" />
+	<bean id="schemaGenerator" class="common.SchemaGenerator" />
 
 </beans>

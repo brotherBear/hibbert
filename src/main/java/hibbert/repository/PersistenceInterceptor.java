@@ -1,4 +1,4 @@
-package test.repository;
+package hibbert.repository;
 
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;

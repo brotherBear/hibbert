@@ -1,4 +1,4 @@
-package test.util;
+package common;
 
 import javax.sql.DataSource;
 

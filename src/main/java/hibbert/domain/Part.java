@@ -11,8 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import test.domain.BaseEntity;
-import test.util.SchemaGenerator;
+import common.SchemaGenerator;
 
 @Entity
 @Table(schema = SchemaGenerator.SCHEMA, name = "parts", uniqueConstraints = { @UniqueConstraint(columnNames = { "product_id", "name", "stock" }) })

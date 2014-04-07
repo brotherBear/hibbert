@@ -1,4 +1,6 @@
-package test.util;
+package common;
+
+import hibbert.domain.BaseEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -6,8 +8,6 @@ import javax.persistence.PersistenceUnit;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
-
-import test.domain.BaseEntity;
 
 
 public class HibernateUtil {

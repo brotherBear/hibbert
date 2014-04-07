@@ -1,4 +1,6 @@
-package test.domain;
+package hibbert.domain;
+
+import hibbert.repository.PersistenceInterceptor;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -12,8 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
-import test.repository.PersistenceInterceptor;
 
 @MappedSuperclass
 @EntityListeners(value = PersistenceInterceptor.class)

@@ -1,10 +1,9 @@
 package hibbert.repository;
 
+import hibbert.domain.BaseEntity;
 import hibbert.domain.Product;
 
 import java.util.Collection;
-
-import test.domain.BaseEntity;
 
 
 public interface Repository {

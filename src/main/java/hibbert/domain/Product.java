@@ -10,8 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import test.domain.BaseEntity;
-import test.util.SchemaGenerator;
+import common.SchemaGenerator;
 
 @Entity
 @Table(schema = SchemaGenerator.SCHEMA, name="product")
