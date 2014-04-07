@@ -2,12 +2,13 @@ package hibbert.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import hibbert.domain.A;
-import hibbert.domain.B;
-import hibbert.domain.C;
+import hibbert.domain.Product;
+import hibbert.domain.Part;
+import hibbert.domain.SpecialPart;
 
 import java.util.Collection;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +23,40 @@ public class ComposerTest {
 
 	@Autowired
 	Composer composer;
+	
+	@After
+	public void removeProducts() {
+		composer.clear();
+	}
+
+	@Test
+	public void testProduct() {
+		assertNotNull("Need a Composer instance", composer);
+		Product first = composer.generate();
+		composer.save(first);
+		Collection<Product> products = composer.fetchAll();
+		assertTrue("At least one element in collection", products.size() >= 1);
+	}
 
 	@Test
 	public void testOverall() {
 		assertNotNull("Need a Composer instance", composer);
-		A first = composer.generate();
+		Product first = composer.generate();
 		composer.save(first);
-		A second = composer.generateWithSubtype();
+		Product second = composer.generateWithSubtype();
 		composer.save(second);
-		Collection<A> all = composer.fetchAll();
+		Collection<Product> all = composer.fetchAll();
 		assertTrue(all.size() >= 2);
 
 		int countC = 0;
 		int countB = 0;
-		for (A a : all) {
-			Collection<B> coll = a.getBs();
-			for (B b : coll) {
+		for (Product a : all) {
+			Collection<Part> coll = a.getParts();
+			for (Part b : coll) {
 				// Make sure we have a 'real' object here since we're testing by instanceof
 				b = HibernateUtil.unproxy(b);
-				
-				if (b instanceof C) {
+
+				if (b instanceof SpecialPart) {
 					countC++;
 				} else {
 					countB++;
@@ -54,22 +69,22 @@ public class ComposerTest {
 	}
 
 	@Test
-	public void testCollectionOfBs() {
+	public void testCollectionOfParts() {
 		assertNotNull("Need a Composer instance", composer);
 		composer.save(composer.generate());
 		composer.save(composer.generateWithSubtype());
 
-		Collection<B> bs = composer.findAllBs();
+		Collection<Part> bs = composer.findAllParts();
 		assertTrue(bs.size() > 0);
 	}
 
 	@Test
-	public void testCollectionOfCs() {
+	public void testCollectionOfSpecialParts() {
 		assertNotNull("Need a Composer instance", composer);
 		composer.save(composer.generate());
 		composer.save(composer.generateWithSubtype());
 
-		Collection<C> cs = composer.findAllCs();
+		Collection<SpecialPart> cs = composer.findAllSpecialParts();
 		assertTrue(cs.size() > 0);
 	}
 

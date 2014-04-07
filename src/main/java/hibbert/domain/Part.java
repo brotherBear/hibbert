@@ -6,34 +6,35 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import test.domain.BaseEntity;
 import test.util.SchemaGenerator;
 
 @Entity
-@Table(schema = SchemaGenerator.SCHEMA, name = "parts", uniqueConstraints = { @UniqueConstraint(
-				columnNames = { "name", "prop1", "prop2" }) })
+@Table(schema = SchemaGenerator.SCHEMA, name = "parts")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn
 @DiscriminatorValue(value = "B-obj")
-public class B extends BaseEntity {
+public class Part extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	@Column
 	private String prop1;
 	@Column
 	private String prop2;
-//	@OneToMany(mappedBy="bs")
-//	private A component;
+	
+	@ManyToOne
+	@JoinColumn(name="product_id")
+	private Product component;
 
-	public B(String name) {
+	public Part(String name) {
 		setName(name);
 	}
 
-	protected B() {
+	protected Part() {
 		// For hibernate
 	}
 

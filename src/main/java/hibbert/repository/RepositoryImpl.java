@@ -1,8 +1,9 @@
 package hibbert.repository;
 
-import hibbert.domain.A;
+import hibbert.domain.Product;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,7 +21,7 @@ public class RepositoryImpl implements Repository {
 	private EntityManager em;
 
 
-	public void save(A entity) {
+	public void save(Product entity) {
 		em.merge(entity);
 	}
 
@@ -28,6 +29,15 @@ public class RepositoryImpl implements Repository {
 	public <T extends BaseEntity> Collection<T> findAll(Class<T> class1) {
 		TypedQuery<T> query = em.createQuery("from " + class1.getSimpleName(), class1);
 		return query.getResultList();
+	}
+
+	@Override
+	public void deleteAllProducts() {
+		TypedQuery<Product> q = em.createQuery("from Product", Product.class);
+		List<Product> entities = q.getResultList();
+		for (Product product : entities) {
+			em.remove(product);
+		}
 	}
 
 }

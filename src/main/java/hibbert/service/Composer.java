@@ -1,18 +1,19 @@
 package hibbert.service;
 
-import hibbert.domain.A;
-import hibbert.domain.B;
-import hibbert.domain.C;
+import hibbert.domain.Product;
+import hibbert.domain.Part;
+import hibbert.domain.SpecialPart;
 
 import java.util.Collection;
 
 
 public interface Composer {
 
-	A generate();
-	A generateWithSubtype();
-	Collection<A> fetchAll();
-	Collection<B> findAllBs();
-	Collection<C> findAllCs();
-	void save(A entity);
+	Product generate();
+	Product generateWithSubtype();
+	Collection<Product> fetchAll();
+	Collection<Part> findAllParts();
+	Collection<SpecialPart> findAllSpecialParts();
+	void save(Product entity);
+	void clear();
 }

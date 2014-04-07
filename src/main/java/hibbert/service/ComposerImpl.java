@@ -1,8 +1,8 @@
 package hibbert.service;
 
-import hibbert.domain.A;
-import hibbert.domain.B;
-import hibbert.domain.C;
+import hibbert.domain.Product;
+import hibbert.domain.Part;
+import hibbert.domain.SpecialPart;
 import hibbert.repository.Repository;
 
 import java.util.Collection;
@@ -20,51 +20,56 @@ public class ComposerImpl implements Composer {
 	@Autowired
 	private Repository repo; 
 
-	public A generate() {
-		A entity = new A("test");
+	public Product generate() {
+		Product entity = new Product("test");
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			B b = new B("B"+i);
+			Part b = new Part("B"+i);
 			b.setProp1("prop1" + (count-i));
 			b.setProp2("prop2" + (count-i));
-			entity.addB(b);
+			entity.addPart(b);
 		}
 		return entity;
 	}
 
-	public void save(A entity) {
+	public void save(Product entity) {
 		repo.save(entity);
 	}
 
 	@Override
-	public A generateWithSubtype() {
-		A entity = new A("test2");
+	public Product generateWithSubtype() {
+		Product entity = new Product("test2");
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			C b = new C("C"+i);
+			SpecialPart b = new SpecialPart("C"+i);
 			b.setProp1("prop1" + (count-i));
 			b.setProp2("prop2" + (count-i));
 			b.setStock(count-1);
-			entity.addB(b);
+			entity.addPart(b);
 		}
 		return entity;
 	}
 
 	@Override
-	public Collection<A> fetchAll() {
-		return repo.findAll(A.class);
+	public Collection<Product> fetchAll() {
+		return repo.findAll(Product.class);
 	}
 
 	@Override
-	public Collection<B> findAllBs() {
-		return repo.findAll(B.class);
+	public Collection<Part> findAllParts() {
+		return repo.findAll(Part.class);
 	}
 
 	@Override
-	public Collection<C> findAllCs() {
-		return repo.findAll(C.class);
+	public Collection<SpecialPart> findAllSpecialParts() {
+		return repo.findAll(SpecialPart.class);
+	}
+
+	@Override
+	public void clear() {
+		repo.deleteAllProducts();
 	}
 	
 	

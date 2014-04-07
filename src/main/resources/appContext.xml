@@ -50,7 +50,7 @@
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="user" value="sa" />
 		<property name="password" value="" />
-		<property name="jdbcUrl" value="jdbc:hsqldb:mem:testdb" />
+		<property name="jdbcUrl" value="jdbc:hsqldb:mem:hibbert" />
 		<property name="driverClass" value="org.hsqldb.jdbcDriver" />
 	</bean>
 	<!-- Alternative datasource not using connection pooling. 
