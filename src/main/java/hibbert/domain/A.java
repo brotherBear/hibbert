@@ -18,7 +18,7 @@ public class A extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER)
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.MERGE}, fetch=FetchType.EAGER, orphanRemoval=true)
 	private Collection<B> bs = new HashSet<B>();
 
 	public A(String name) {
