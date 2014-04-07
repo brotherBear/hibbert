@@ -21,13 +21,13 @@ public class ComposerImpl implements Composer {
 	private Repository repo; 
 
 	public A generate() {
-		A entity = new A();
+		A entity = new A("test");
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			B b = new B();
-			b.setProp1("prop1" + count);
-			b.setProp2("prop2" + count);
+			B b = new B("B"+i);
+			b.setProp1("prop1" + (count-i));
+			b.setProp2("prop2" + (count-i));
 			entity.addB(b);
 		}
 		return entity;
@@ -38,15 +38,15 @@ public class ComposerImpl implements Composer {
 	}
 
 	@Override
-	public A generateWithSuptype() {
-		A entity = new A();
+	public A generateWithSubtype() {
+		A entity = new A("test2");
 		Random r = new Random();
 		int count = r.nextInt(20);
 		for (int i = 0; i < count; i++) {
-			C b = new C();
-			b.setProp1("prop1" + count);
-			b.setProp2("prop2" + count);
-			b.setCount(count);
+			C b = new C("C"+i);
+			b.setProp1("prop1" + (count-i));
+			b.setProp2("prop2" + (count-i));
+			b.setStock(count-1);
 			entity.addB(b);
 		}
 		return entity;
@@ -56,5 +56,17 @@ public class ComposerImpl implements Composer {
 	public Collection<A> fetchAll() {
 		return repo.findAll();
 	}
+
+	@Override
+	public Collection<B> findAllBs() {
+		return repo.findAll(B.class);
+	}
+
+	@Override
+	public Collection<C> findAllCs() {
+		return repo.findAll(C.class);
+	}
+	
+	
 
 }

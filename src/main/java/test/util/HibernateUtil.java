@@ -4,6 +4,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.hibernate.Hibernate;
+import org.hibernate.proxy.HibernateProxy;
+
+import test.domain.BaseEntity;
+
 
 public class HibernateUtil {
 
@@ -38,5 +43,15 @@ public class HibernateUtil {
 	}
 	public void commit() {
 		getEntityManager().getTransaction().commit();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends BaseEntity> T unproxy(T proxied) {
+		T entity = proxied;
+		if (entity != null && entity instanceof HibernateProxy) {
+			Hibernate.initialize(entity);
+			entity = (T) ((HibernateProxy) entity).getHibernateLazyInitializer().getImplementation();
+		}
+		return entity;
 	}
 }

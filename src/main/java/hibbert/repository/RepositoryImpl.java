@@ -11,6 +11,8 @@ import javax.persistence.TypedQuery;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import test.domain.BaseEntity;
+
 @Transactional(propagation = Propagation.MANDATORY)
 public class RepositoryImpl implements Repository {
 	
@@ -24,6 +26,12 @@ public class RepositoryImpl implements Repository {
 
 	public Collection<A> findAll() {
 		TypedQuery<A> query = em.createQuery("from A", A.class);
+		return query.getResultList();
+	}
+
+	@Override
+	public <T extends BaseEntity> Collection<T> findAll(Class<T> class1) {
+		TypedQuery<T> query = em.createQuery("from " + class1.getSimpleName(), class1);
 		return query.getResultList();
 	}
 
