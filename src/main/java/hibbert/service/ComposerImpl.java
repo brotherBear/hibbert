@@ -54,7 +54,7 @@ public class ComposerImpl implements Composer {
 
 	@Override
 	public Collection<A> fetchAll() {
-		return repo.findAll();
+		return repo.findAll(A.class);
 	}
 
 	@Override

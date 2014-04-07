@@ -16,12 +16,12 @@ public class PersistenceInterceptor {
 	
 	@PrePersist
 	public void prePersist(Object o) {
-		log(o, "++++", "Persisting");
+//		log(o, "++++", "Persisting");
 	}
 	
 	@PostPersist
 	public void postPersist(Object o) {
-		log(o, ">>>>", "Persisted");
+//		log(o, ">>>>", "Persisted");
 	}
 	
 	@PreUpdate

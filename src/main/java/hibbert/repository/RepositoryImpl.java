@@ -21,12 +21,7 @@ public class RepositoryImpl implements Repository {
 
 
 	public void save(A entity) {
-		em.persist(entity);
-	}
-
-	public Collection<A> findAll() {
-		TypedQuery<A> query = em.createQuery("from A", A.class);
-		return query.getResultList();
+		em.merge(entity);
 	}
 
 	@Override

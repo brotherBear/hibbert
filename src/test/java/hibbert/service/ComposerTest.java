@@ -38,13 +38,12 @@ public class ComposerTest {
 		for (A a : all) {
 			Collection<B> coll = a.getBs();
 			for (B b : coll) {
+				// Make sure we have a 'real' object here since we're testing by instanceof
 				b = HibernateUtil.unproxy(b);
 				
 				if (b instanceof C) {
-					System.out.println("Found a C! " + b.toString());
 					countC++;
 				} else {
-					System.out.println("Found a B! " + b.toString());
 					countB++;
 				}
 			}

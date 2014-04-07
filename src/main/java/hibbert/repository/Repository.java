@@ -10,6 +10,5 @@ import test.domain.BaseEntity;
 public interface Repository {
 
 	void save(A entity);
-	Collection<A> findAll();
 	<T extends BaseEntity> Collection<T> findAll(Class<T> class1);
 }
