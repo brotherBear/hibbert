@@ -2,6 +2,7 @@ package hibbert.service;
 
 import hibbert.domain.Product;
 import hibbert.domain.Part;
+import hibbert.domain.ProductWithSpecialParts;
 import hibbert.domain.SpecialPart;
 import hibbert.repository.Repository;
 
@@ -22,10 +23,9 @@ public class ComposerImpl implements Composer {
 
 	public Product generate() {
 		Product entity = new Product("test");
-		Random r = new Random();
-		int count = r.nextInt(20);
+		int count = numberOfParts();
 		for (int i = 0; i < count; i++) {
-			Part part = new Part("B"+i);
+			Part part = new Part(""+i);
 			part.setProp1("prop1" + (count-i));
 			entity.addPart(part);
 		}
@@ -39,10 +39,9 @@ public class ComposerImpl implements Composer {
 	@Override
 	public Product generateWithSubtype() {
 		Product entity = new Product("test2");
-		Random r = new Random();
-		int count = r.nextInt(20);
+		int count = numberOfParts();
 		for (int i = 0; i < count; i++) {
-			SpecialPart part = new SpecialPart("C"+i);
+			SpecialPart part = new SpecialPart(""+i);
 			part.setProp1("prop1" + (count-i));
 			part.setProp2("prop2" + (count-i));
 			part.setStock(count-1);
@@ -69,6 +68,25 @@ public class ComposerImpl implements Composer {
 	@Override
 	public void clear() {
 		repo.deleteAllProducts();
+	}
+
+	@Override
+	public ProductWithSpecialParts generateSpecialProduct() {
+		ProductWithSpecialParts entity = new ProductWithSpecialParts("special");
+		int count = numberOfParts();
+		for (int i = 0; i < count; i++) {
+			SpecialPart part = new SpecialPart(""+i);
+			part.setProp1("prop1" + (count-i));
+			part.setProp2("prop2" + (count-i));
+			part.setStock(count-1);
+			entity.addPart(part);
+		}
+		return entity;
+	}
+
+	private int numberOfParts() {
+		Random r = new Random();
+		return r.nextInt(20) + 1;
 	}
 	
 	

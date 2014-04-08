@@ -4,8 +4,11 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -14,6 +17,8 @@ import common.SchemaGenerator;
 
 @Entity
 @Table(schema = SchemaGenerator.SCHEMA, name="product")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue(value = "p")
 public class Product extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

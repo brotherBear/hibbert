@@ -2,13 +2,14 @@ package hibbert.service;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import hibbert.domain.Product;
 import hibbert.domain.Part;
+import hibbert.domain.Product;
 import hibbert.domain.SpecialPart;
 
 import java.util.Collection;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,13 @@ public class ComposerTest {
 		composer.clear();
 	}
 
+	@Before
+	public void setup() {
+		assertNotNull("Need a Composer instance", composer);
+	}
+	
 	@Test
 	public void testProduct() {
-		assertNotNull("Need a Composer instance", composer);
 		Product first = composer.generate();
 		composer.save(first);
 		Collection<Product> products = composer.fetchAll();
@@ -40,7 +45,6 @@ public class ComposerTest {
 
 	@Test
 	public void testOverall() {
-		assertNotNull("Need a Composer instance", composer);
 		Product first = composer.generate();
 		composer.save(first);
 		Product second = composer.generateWithSubtype();
@@ -70,7 +74,6 @@ public class ComposerTest {
 
 	@Test
 	public void testCollectionOfParts() {
-		assertNotNull("Need a Composer instance", composer);
 		composer.save(composer.generate());
 		composer.save(composer.generateWithSubtype());
 
@@ -80,10 +83,18 @@ public class ComposerTest {
 
 	@Test
 	public void testCollectionOfSpecialParts() {
-		assertNotNull("Need a Composer instance", composer);
 		composer.save(composer.generate());
 		composer.save(composer.generateWithSubtype());
 
+		Collection<SpecialPart> cs = composer.findAllSpecialParts();
+		assertTrue(cs.size() > 0);
+	}
+	
+	@Test
+	public void testProductWithSpecialParts() {
+		composer.save(composer.generateSpecialProduct());
+		composer.save(composer.generateSpecialProduct());
+		
 		Collection<SpecialPart> cs = composer.findAllSpecialParts();
 		assertTrue(cs.size() > 0);
 	}
