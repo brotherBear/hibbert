@@ -1,10 +1,10 @@
 package hibbert.domain;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
-@DiscriminatorValue(value = "sp")
+@Table(name="special_product")
 public class ProductWithSpecialParts extends Product {
 
 	private static final long serialVersionUID = 1L;
