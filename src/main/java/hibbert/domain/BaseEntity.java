@@ -50,7 +50,7 @@ public abstract class BaseEntity implements Serializable {
 	}
 
 	private void getFieldsAsString(StringBuffer sb, Class<?> objClass) {
-		sb.append(String.format("\n%s\n", objClass.getSimpleName()));
+		sb.append(String.format("\n\ttype : %s,\n", objClass.getSimpleName()));
 		Field[] fields = objClass.getDeclaredFields();
 		for (Field f : fields) {
 			String name = f.getName();
@@ -61,9 +61,9 @@ public abstract class BaseEntity implements Serializable {
 			} catch (Exception e) {
 			}
 			if (value instanceof Collection<?>) {
-				sb.append(String.format("%s: %s\n", name, "[don't propagate]"));
+				sb.append(String.format("%s: %s,\n", name, "[don't propagate]"));
 			} else {
-				sb.append(String.format("%s: %s\n", name, value == null ? "N/A" : value.toString()));
+				sb.append(String.format("%s: %s,\n", name, value == null ? "N/A" : value.toString()));
 			}
 		}
 	}
