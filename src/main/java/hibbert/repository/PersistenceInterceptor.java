@@ -16,7 +16,7 @@ public class PersistenceInterceptor {
 	
 	@PrePersist
 	public void prePersist(Object o) {
-//		log(o, "++++", "Persisting");
+		log(o, "++++", "Persisting");
 	}
 	
 	@PostPersist
